@@ -75,3 +75,18 @@ button {
 .leaderboard h3 {
   color: #0ff;
 }
+.wager-area {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+.wager-area input,
+.wager-area select {
+  padding: 6px 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: none;
+}
