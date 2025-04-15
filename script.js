@@ -1,89 +1,56 @@
-import {
-  Connection,
-  PublicKey,
-  clusterApiUrl,
-  LAMPORTS_PER_SOL,
-  Transaction,
-  SystemProgram,
-} from "https://cdn.jsdelivr.net/npm/@solana/web3.js/+esm";
+<!-- Add to index.html inside <head> or before </body> -->
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script>
+  const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
+  const treasuryWallet = new solanaWeb3.PublicKey("GVeLF72pTpTeQt2mhGBCVc6VdzaJxoH9HTim4ei2wqJC");
 
-const TREASURY_WALLET = "GVeLF72pTpTeQt2mhGBCVc6VdzaJxoH9HTim4ei2wqJC";
-const TOKEN_ADDRESS = "CnJzTPbjFzpo5ogNPwRFjt2ade8s2NoBfJVhrFAt31X9"; // $DIOGH
-const SOLANA_NETWORK = "mainnet-beta"; // or "devnet" for testing
+  let walletAddress = null;
+  let flipCount = 0;
 
-let wallet = null;
-let tokenBalance = 0;
-let flipCount = 0;
-
-document.getElementById("connectWallet").addEventListener("click", async () => {
-  if (window.solana && window.solana.isPhantom) {
-    try {
-      const response = await window.solana.connect();
-      wallet = response.publicKey.toString();
-      document.getElementById("walletAddress").textContent = `Connected Wallet: ${wallet}`;
-      await updateBalances();
-    } catch (err) {
-      console.error("Wallet connection failed:", err);
-    }
-  } else {
-    alert("Phantom Wallet not found. Please install it from https://phantom.app");
-  }
-});
-
-async function updateBalances() {
-  const connection = new Connection(clusterApiUrl(SOLANA_NETWORK));
-  const pubKey = new PublicKey(wallet);
-  const solBalance = await connection.getBalance(pubKey);
-  document.getElementById("balance").textContent = `SOL: ${(solBalance / LAMPORTS_PER_SOL).toFixed(4)} | Token Balance: ${tokenBalance} $DIOGH`;
-
-  // Check SPL token balance (DIOGH)
-  try {
-    const accounts = await connection.getParsedTokenAccountsByOwner(pubKey, {
-      mint: new PublicKey(TOKEN_ADDRESS),
-    });
-    if (accounts.value.length > 0) {
-      const amt = accounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-      tokenBalance = amt;
+  document.getElementById("connectWallet").addEventListener("click", async () => {
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        const res = await window.solana.connect();
+        walletAddress = res.publicKey.toString();
+        document.getElementById("walletAddress").textContent = `Connected Wallet: ${walletAddress}`;
+      } catch (err) {
+        console.error("Connection error:", err);
+      }
     } else {
-      tokenBalance = 0;
+      alert("Please install Phantom Wallet: https://phantom.app");
     }
-  } catch (e) {
-    tokenBalance = 0;
+  });
+
+  async function flipCoin() {
+    if (!walletAddress) {
+      alert("Please connect your wallet first.");
+      return;
+    }
+
+    try {
+      const transaction = new solanaWeb3.Transaction().add(
+        solanaWeb3.SystemProgram.transfer({
+          fromPubkey: new solanaWeb3.PublicKey(walletAddress),
+          toPubkey: treasuryWallet,
+          lamports: 0.01 * solanaWeb3.LAMPORTS_PER_SOL,
+        })
+      );
+      transaction.feePayer = new solanaWeb3.PublicKey(walletAddress);
+      transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+      
+      const signed = await window.solana.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signed.serialize());
+      await connection.confirmTransaction(signature);
+
+      const result = Math.random() < 0.5 ? "Heads 💰" : "Tails 💥";
+      document.getElementById("result").textContent = `Result: ${result}`;
+      flipCount++;
+      document.getElementById("leaderboard").innerHTML = `<li>You: ${flipCount} flips</li>`;
+    } catch (err) {
+      console.error("Flip error:", err);
+    }
   }
 
-  document.getElementById("balance").textContent += ` | Token: ${tokenBalance} $DIOGH`;
-}
+  document.getElementById("flipButton").addEventListener("click", flipCoin);
+</script>
 
-async function flipCoin() {
-  if (!wallet) {
-    alert("Please connect your wallet first!");
-    return;
-  }
-
-  const connection = new Connection(clusterApiUrl(SOLANA_NETWORK));
-  const fromPubkey = new PublicKey(wallet);
-  const toPubkey = new PublicKey(TREASURY_WALLET);
-
-  const transaction = new Transaction().add(
-    SystemProgram.transfer({
-      fromPubkey,
-      toPubkey,
-      lamports: 0.01 * LAMPORTS_PER_SOL,
-    })
-  );
-
-  try {
-    const { signature } = await window.solana.signAndSendTransaction(transaction);
-    await connection.confirmTransaction(signature);
-    console.log("Transaction confirmed:", signature);
-
-    const result = Math.random() < 0.5 ? "Heads 💰" : "Tails 💥";
-    document.getElementById("result").textContent = "Result: " + result;
-    flipCount++;
-    document.getElementById("leaderboard").innerHTML = `<li>You: ${flipCount} flips</li>`;
-    await updateBalances();
-  } catch (err) {
-    console.error("Flip transaction failed:", err);
-    alert("Flip failed. Please try again.");
-  }
-}
