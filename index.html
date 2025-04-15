@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +14,7 @@
   <div class="container">
     <h1>DOUBLE IT OR GO HOME</h1>
     <p>Welcome to the ultimate futuristic coin flip experience. Will you double it or go home?</p>
-    <button onclick="flipCoin()">🎲 Flip Coin</button>
+    <button id="flipButton">🎲 Flip Coin</button>
     <div id="result"></div>
     <div id="balance">Token Balance: 0 $DIOGH</div>
     <div class="leaderboard">
@@ -24,6 +23,8 @@
     </div>
     <div id="walletAddress" class="wallet-info"></div>
   </div>
-  <script src="script.js"></script>
+
+  <!-- Ensure this loads last and is type="module" -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
