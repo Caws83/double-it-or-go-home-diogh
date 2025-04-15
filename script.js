@@ -3,6 +3,7 @@ let walletAddress = null;
 let flipCount = 0;
 const TREASURY_WALLET = "GVeLF72pTpTeQt2mhGBCVc6VdzaJxoH9HTim4ei2wqJC";
 const TOKEN_ADDRESS = "CnJzTPbjFzpo5ogNPwRFjt2ade8s2NoBfJVhrFAt31X9";
+const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
 
 window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("connectWallet").addEventListener("click", connectWallet);
@@ -12,27 +13,26 @@ window.addEventListener("DOMContentLoaded", () => {
 async function connectWallet() {
   if (window.solana && window.solana.isPhantom) {
     try {
-      const res = await window.solana.connect();
-      walletAddress = res.publicKey.toString();
+      const response = await window.solana.connect();
+      walletAddress = response.publicKey.toString();
       document.getElementById("walletAddress").textContent = "Connected Wallet: " + walletAddress;
       await updateBalances();
     } catch (err) {
-      console.error("Wallet connect error:", err);
+      console.error("Wallet connection failed:", err);
     }
   } else {
-    alert("Phantom Wallet not found. Install it from https://phantom.app");
+    alert("Phantom Wallet not found. Install from https://phantom.app");
   }
 }
 
 async function updateBalances() {
-  const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
   const pubKey = new solanaWeb3.PublicKey(walletAddress);
+  const solBalance = await connection.getBalance(pubKey);
+  const sol = (solBalance / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4);
 
+  // Token balance
+  let tokenBalance = 0;
   try {
-    const solBalance = await connection.getBalance(pubKey);
-    const sol = (solBalance / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4);
-
-    let tokenBalance = 0;
     const accounts = await connection.getParsedTokenAccountsByOwner(pubKey, {
       mint: new solanaWeb3.PublicKey(TOKEN_ADDRESS),
     });
@@ -40,11 +40,11 @@ async function updateBalances() {
     if (accounts.value.length > 0) {
       tokenBalance = accounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
     }
-
-    document.getElementById("balance").textContent = `SOL: ${sol} | Token: ${tokenBalance} $DIOGH`;
-  } catch (e) {
-    console.error("Balance fetch failed:", e);
+  } catch (err) {
+    console.error("Error reading token balance:", err);
   }
+
+  document.getElementById("balance").textContent = `SOL: ${sol} | Token: ${tokenBalance} $DIOGH`;
 }
 
 async function flipCoin() {
@@ -53,34 +53,37 @@ async function flipCoin() {
     return;
   }
 
-  const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"));
-  const fromPubkey = new solanaWeb3.PublicKey(walletAddress);
-  const toPubkey = new solanaWeb3.PublicKey(TREASURY_WALLET);
-
-  const transaction = new solanaWeb3.Transaction().add(
-    solanaWeb3.SystemProgram.transfer({
-      fromPubkey,
-      toPubkey,
-      lamports: 0.01 * solanaWeb3.LAMPORTS_PER_SOL,
-    })
-  );
-
-  transaction.feePayer = fromPubkey;
-  transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-
   try {
+    const fromPubkey = new solanaWeb3.PublicKey(walletAddress);
+    const toPubkey = new solanaWeb3.PublicKey(TREASURY_WALLET);
+    const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+
+    const transaction = new solanaWeb3.Transaction({
+      feePayer: fromPubkey,
+      recentBlockhash,
+    }).add(
+      solanaWeb3.SystemProgram.transfer({
+        fromPubkey,
+        toPubkey,
+        lamports: 0.01 * solanaWeb3.LAMPORTS_PER_SOL,
+      })
+    );
+
     const signed = await window.solana.signTransaction(transaction);
     const signature = await connection.sendRawTransaction(signed.serialize());
-    await connection.confirmTransaction(signature);
+    await connection.confirmTransaction(signature, "confirmed");
 
     const result = Math.random() < 0.5 ? "Heads 💰" : "Tails 💥";
     document.getElementById("result").textContent = "Result: " + result;
+
     flipCount++;
-    document.getElementById("leaderboard").innerHTML = `<li>You: ${flipCount} flips</li>`;
+    document.getElementById("leaderboard").innerHTML = "<li>You: " + flipCount + " flips</li>";
+
     await updateBalances();
   } catch (err) {
     console.error("Flip failed:", err);
-    alert("Flip failed. Please try again.");
+    alert("Flip failed. Try again.");
   }
 }
+
 
