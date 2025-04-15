@@ -90,3 +90,5 @@ button {
   border-radius: 6px;
   border: none;
 }
+text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+color: #ff69b4;
