@@ -7,50 +7,43 @@ import {
   SystemProgram,
 } from "https://cdn.jsdelivr.net/npm/@solana/web3.js/+esm";
 
-// CONFIG
 const TREASURY_WALLET = "GVeLF72pTpTeQt2mhGBCVc6VdzaJxoH9HTim4ei2wqJC";
-const TOKEN_ADDRESS = "CnJzTPbjFzpo5ogNPwRFjt2ade8s2NoBfJVhrFAt31X9"; // $DIOGH
+const TOKEN_ADDRESS = "CnJzTPbjFzpo5ogNPwRFjt2ade8s2NoBfJVhrFAt31X9";
 const SOLANA_NETWORK = "mainnet-beta";
 
 let wallet = null;
-let tokenBalance = 0;
 let flipCount = 0;
+let tokenBalance = 0;
 
 window.addEventListener("DOMContentLoaded", () => {
-  const connectButton = document.getElementById("connectWallet");
-  const flipButton = document.getElementById("flipButton");
-
-  if (connectButton) {
-    connectButton.addEventListener("click", connectWallet);
-  }
-
-  if (flipButton) {
-    flipButton.addEventListener("click", flipCoin);
-  }
+  document.getElementById("connectWallet").addEventListener("click", connectWallet);
+  document.getElementById("flipButton").addEventListener("click", flipCoin);
 });
 
 async function connectWallet() {
   if (window.solana && window.solana.isPhantom) {
     try {
-      const response = await window.solana.connect();
-      wallet = response.publicKey.toString();
-      document.getElementById("walletAddress").textContent = `Connected Wallet: ${wallet}`;
+      const res = await window.solana.connect();
+      wallet = res.publicKey.toString();
+      document.getElementById("walletAddress").textContent = "Connected Wallet: " + wallet;
       await updateBalances();
     } catch (err) {
-      console.error("Wallet connection failed:", err);
+      console.error("Wallet connect error:", err);
     }
   } else {
-    alert("Phantom Wallet not found. Please install it from https://phantom.app");
+    alert("Phantom Wallet not found. Get it at https://phantom.app");
   }
 }
 
 async function updateBalances() {
   const connection = new Connection(clusterApiUrl(SOLANA_NETWORK));
   const pubKey = new PublicKey(wallet);
-  const solBalance = await connection.getBalance(pubKey);
-  const solAmount = (solBalance / LAMPORTS_PER_SOL).toFixed(4);
 
-  // Check SPL token balance
+  // SOL Balance
+  const solBalance = await connection.getBalance(pubKey);
+  let sol = (solBalance / LAMPORTS_PER_SOL).toFixed(4);
+
+  // $DIOGH Token Balance
   try {
     const accounts = await connection.getParsedTokenAccountsByOwner(pubKey, {
       mint: new PublicKey(TOKEN_ADDRESS),
@@ -60,16 +53,17 @@ async function updateBalances() {
     } else {
       tokenBalance = 0;
     }
-  } catch {
+  } catch (err) {
+    console.error("Token balance check failed:", err);
     tokenBalance = 0;
   }
 
-  document.getElementById("balance").textContent = `SOL: ${solAmount} | Token: ${tokenBalance} $DIOGH`;
+  document.getElementById("balance").textContent = `SOL: ${sol} | Token: ${tokenBalance} $DIOGH`;
 }
 
 async function flipCoin() {
   if (!wallet) {
-    alert("Please connect your wallet first!");
+    alert("Please connect your wallet first.");
     return;
   }
 
@@ -89,14 +83,18 @@ async function flipCoin() {
     const { signature } = await window.solana.signAndSendTransaction(transaction);
     await connection.confirmTransaction(signature);
 
+    // Flip Result
     const result = Math.random() < 0.5 ? "Heads 💰" : "Tails 💥";
-    document.getElementById("result").textContent = `Result: ${result}`;
+    document.getElementById("result").textContent = "Result: " + result;
+
+    // Update leaderboard
     flipCount++;
     document.getElementById("leaderboard").innerHTML = `<li>You: ${flipCount} flips</li>`;
+
     await updateBalances();
   } catch (err) {
-    console.error("Transaction failed:", err);
-    alert("Flip failed. Please try again.");
+    console.error("Flip failed:", err);
+    alert("Transaction failed. Try again.");
   }
 }
 
