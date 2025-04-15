@@ -13,15 +13,15 @@ window.addEventListener("DOMContentLoaded", () => {
 async function connectWallet() {
   if (window.solana && window.solana.isPhantom) {
     try {
-      const response = await window.solana.connect();
-      walletAddress = response.publicKey.toString();
+      const res = await window.solana.connect({ onlyIfTrusted: false });
+      walletAddress = res.publicKey.toString();
       document.getElementById("walletAddress").textContent = "Connected Wallet: " + walletAddress;
       await updateBalances();
     } catch (err) {
       console.error("Wallet connection failed:", err);
     }
   } else {
-    alert("Phantom Wallet not found. Install from https://phantom.app");
+    alert("Phantom Wallet not found. Please install it from https://phantom.app");
   }
 }
 
@@ -30,7 +30,6 @@ async function updateBalances() {
   const solBalance = await connection.getBalance(pubKey);
   const sol = (solBalance / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4);
 
-  // Token balance
   let tokenBalance = 0;
   try {
     const accounts = await connection.getParsedTokenAccountsByOwner(pubKey, {
@@ -58,10 +57,7 @@ async function flipCoin() {
     const toPubkey = new solanaWeb3.PublicKey(TREASURY_WALLET);
     const recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
 
-    const transaction = new solanaWeb3.Transaction({
-      feePayer: fromPubkey,
-      recentBlockhash,
-    }).add(
+    const transaction = new solanaWeb3.Transaction().add(
       solanaWeb3.SystemProgram.transfer({
         fromPubkey,
         toPubkey,
@@ -69,15 +65,19 @@ async function flipCoin() {
       })
     );
 
+    transaction.feePayer = fromPubkey;
+    transaction.recentBlockhash = recentBlockhash;
+
     const signed = await window.solana.signTransaction(transaction);
-    const signature = await connection.sendRawTransaction(signed.serialize());
+    const rawTx = signed.serialize();
+
+    const signature = await connection.sendRawTransaction(rawTx);
     await connection.confirmTransaction(signature, "confirmed");
 
     const result = Math.random() < 0.5 ? "Heads 💰" : "Tails 💥";
     document.getElementById("result").textContent = "Result: " + result;
-
     flipCount++;
-    document.getElementById("leaderboard").innerHTML = "<li>You: " + flipCount + " flips</li>";
+    document.getElementById("leaderboard").innerHTML = `<li>You: ${flipCount} flips</li>`;
 
     await updateBalances();
   } catch (err) {
@@ -85,5 +85,3 @@ async function flipCoin() {
     alert("Flip failed. Try again.");
   }
 }
-
-
