@@ -125,5 +125,21 @@ button {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+/* 🔥 Floating Coin Images */
+.corner-coin {
+  position: fixed;
+  width: 120px;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+.left-coin {
+  left: 10px;
+}
+
+.right-coin {
+  right: 10px;
+}
 
 
