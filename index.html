@@ -7,17 +7,19 @@
 </head>
 <body>
 
-  <!-- Wallet Connect Section -->
-  <div class="wallet-bar">
-    <button id="connectWallet">🔐 Connect Wallet</button>
-    <div id="walletStatus"></div>
+  <!-- ✅ Logo & Wallet Connect Bar -->
+  <div class="top-bar">
+    <img src="logo.png" alt="DIOGH Logo" class="site-logo" />
+    <div class="wallet-bar">
+      <button id="connectWallet">🔐 Connect Wallet</button>
+      <div id="walletStatus"></div>
+    </div>
   </div>
 
   <div class="container">
     <h1 class="neon-title">DOUBLE IT OR GO HOME</h1>
     <p>Welcome to the ultimate futuristic coin flip experience. Will you double it or go home?</p>
 
-    <!-- 1v1 Flip -->
     <div class="wager-box">
       <h2>🤝 <strong>1v1 Flip Wager</strong></h2>
       <label>Wager Amount ($DIOGH):</label>
@@ -31,9 +33,9 @@
 
     <button onclick="flipCoin()">🎲 Flip Coin</button>
     <div id="result" class="result-box"></div>
+
     <p id="balance">Token Balance: 0 $DIOGH</p>
 
-    <!-- Dice Game -->
     <section class="dice-game">
       <h2>🎲 Mini Dice Game</h2>
       <p class="quote">Go big or go home 💥</p>
@@ -41,24 +43,20 @@
       <div id="diceResult"></div>
     </section>
 
-    <!-- Coming Soon -->
     <section class="coming-soon">
       <h2>🕹️ Mini Game Hub - Coming Soon</h2>
       <p>Exclusive for $DIOGH holders. Unlock secret games and win big!</p>
     </section>
 
-    <!-- Leaderboard -->
     <h3>🏆 Leaderboard</h3>
     <ul id="leaderboard"></ul>
 
-    <!-- Spinning Coins -->
     <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=026" class="coin eth" />
     <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=026" class="coin btc" />
     <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=026" class="coin sol" />
     <img src="https://cdn-icons-png.flaticon.com/512/11561/11561818.png" class="coin diogh" />
   </div>
 
-  <!-- Scripts -->
   <script src="script.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -87,6 +85,4 @@
 </body>
 </html>
 
-
-    
     
