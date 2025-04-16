@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Double It Or Go Home</title>
+  <title>Double It or Go Home</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-  <!-- 🔝 Top Bar with Logo + Wallet -->
   <div class="top-bar">
     <img src="images/logo.png" alt="DIOGH Logo" class="site-logo" />
     <div class="wallet-bar">
@@ -18,14 +16,13 @@
   </div>
 
   <div class="container">
-    <h1 class="neon-title">DOUBLE IT OR GO HOME</h1>
-    <p>Welcome to the ultimate futuristic coin flip experience. Will you double it or go home?</p>
+    <h1 class="main-title">DOUBLE IT OR GO HOME</h1>
+    <p class="tagline">Flip the coin, earn rewards, climb the leaderboard. Ready to risk it?</p>
 
-    <!-- Wager Area -->
     <div class="wager-box">
-      <h2>🤝 <strong>1v1 Flip Wager</strong></h2>
+      <h2>🤝 1v1 Flip Wager</h2>
       <label>Wager Amount ($DIOGH):</label>
-      <input type="number" id="wagerAmount" placeholder="Enter amount" min="1" />
+      <input type="number" id="wagerAmount" placeholder="Enter amount" />
       <label>Choose Side:</label>
       <select id="chosenSide">
         <option value="Heads">Heads</option>
@@ -33,76 +30,20 @@
       </select>
     </div>
 
-    <button onclick="flipCoin()">🎲 Flip Coin</button>
+    <button class="flip-button" onclick="flipCoin()">🎲 Flip Coin</button>
+
     <div id="result" class="result-box"></div>
+    <div id="balance" class="token-balance">Token Balance: 0 $DIOGH</div>
+    <ul id="leaderboard" class="leaderboard"></ul>
 
-    <p id="balance">Token Balance: 0 $DIOGH</p>
-
-    <!-- Dice Game -->
-    <section class="dice-game">
+    <section class="dice-section">
       <h2>🎲 Mini Dice Game</h2>
-      <p class="quote">Go big or go home 💥</p>
-      <button onclick="rollDice()">🎲 Roll the Dice</button>
-      <div id="diceResult"></div>
-    </section>
-
-    <!-- Coming Soon Section -->
-    <section class="coming-soon">
-      <h2>🕹️ Mini Game Hub - Coming Soon</h2>
-      <p>Exclusive for $DIOGH holders. Unlock secret games and win big!</p>
-    </section>
-
-    <!-- Whitepaper -->
-    <section class="whitepaper">
-      <h2>📄 White Paper</h2>
-      <p>$DIOGH is a high-risk, high-reward token that embraces degen spirit. You flip, you stake, you ride the chaos. No soft hands here.</p>
-      <p>Every failed flip burns tokens. Wins fuel your bag. Community votes control the big flips, liquidity burns, and roadmap chaos.</p>
-    </section>
-
-    <!-- Team Section -->
-    <section class="team">
-      <h2>👥 The Team</h2>
-      <div class="team-grid">
-        <div class="member">🧠 Dev Degen<br><span>Founder / Smart Contracts</span></div>
-        <div class="member">🎨 Pixel Pirate<br><span>Designer / Brand</span></div>
-        <div class="member">📢 Meme Master<br><span>Community Hype</span></div>
-      </div>
+      <p class="neon-quote">Go big or go home 💥</p>
+      <button class="flip-button" onclick="rollDice()">🎲 Roll the Dice</button>
+      <div id="diceResult" class="result-box"></div>
     </section>
   </div>
 
-  <!-- Side Coins & Floating Assets -->
-  <img src="images/coin-left.png" class="corner-coin left-coin" />
-  <img src="images/coin-right.png" class="corner-coin right-coin" />
-  <img src="images/solana.png" class="float-coin sol" />
-  <img src="images/btc.png" class="float-coin btc" />
-  <img src="images/eth.png" class="float-coin eth" />
-  <img src="images/diogh.png" class="float-coin diogh" />
-
-  <!-- Script -->
   <script src="script.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const connectBtn = document.getElementById("connectWallet");
-      const walletStatus = document.getElementById("walletStatus");
-
-      connectBtn.addEventListener("click", async () => {
-        if (window.solana && window.solana.isPhantom) {
-          try {
-            const res = await window.solana.connect();
-            const address = res.publicKey.toString();
-            const short = address.slice(0, 4) + "..." + address.slice(-4);
-            walletStatus.textContent = "✅ Wallet: " + short;
-            walletStatus.style.display = "inline";
-            connectBtn.style.display = "none";
-          } catch (err) {
-            console.error("Phantom connect error:", err);
-          }
-        } else {
-          alert("Phantom Wallet not found. Install it from https://phantom.app");
-        }
-      });
-    });
-  </script>
-
 </body>
 </html>
