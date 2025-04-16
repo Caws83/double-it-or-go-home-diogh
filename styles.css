@@ -8,7 +8,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 🔥 NEW: Header */
+/* 🔥 Top Header */
 .top-bar {
   display: flex;
   justify-content: space-between;
@@ -23,7 +23,7 @@ body {
   filter: drop-shadow(0 0 6px #ff69b4);
 }
 
-/* 🔐 Wallet Section */
+/* 🔐 Wallet */
 .wallet-bar {
   display: flex;
   align-items: center;
@@ -125,7 +125,8 @@ button {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-/* 🔥 Floating Coin Images */
+
+/* ✅ New: Floating Coin Graphics */
 .corner-coin {
   position: fixed;
   width: 120px;
@@ -141,5 +142,4 @@ button {
 .right-coin {
   right: 10px;
 }
-
 
