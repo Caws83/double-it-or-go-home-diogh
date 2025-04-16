@@ -143,3 +143,45 @@ button {
   right: 10px;
 }
 
+/* 📜 Whitepaper Section */
+.whitepaper, .team {
+  margin-top: 4rem;
+  background: #121212;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #333;
+  text-align: left;
+  line-height: 1.6;
+  box-shadow: 0 0 12px #8e2de2;
+}
+
+/* 👥 Team Grid */
+.team-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.member {
+  flex: 1 1 200px;
+  background: #191919;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  box-shadow: 0 0 10px #8e2de2;
+  color: #ff69b4;
+  font-weight: bold;
+  text-align: center;
+}
+
+.member span {
+  display: block;
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-top: 4px;
+}
