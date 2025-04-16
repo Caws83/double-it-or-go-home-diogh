@@ -15,6 +15,33 @@ body {
   margin-bottom: 1rem;
 }
 
+.wallet-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 2rem;
+  gap: 1rem;
+}
+
+#walletStatus {
+  color: #0f0;
+  font-size: 0.9rem;
+  display: none;
+  text-shadow: 0 0 6px #0f0;
+}
+
+#walletStatus.connected {
+  display: inline-block;
+}
+
+#walletStatus::before {
+  content: "✅ ";
+}
+
+#walletStatus strong {
+  color: #0f0;
+}
+
 .wager-box {
   margin: 1rem auto;
   padding: 1rem;
@@ -83,42 +110,5 @@ button {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-#walletStatus {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  background: #111;
-  padding: 10px 16px;
-  border-radius: 12px;
-  border: 1px solid #333;
-  color: #0f0;
-  font-size: 0.9rem;
-  box-shadow: 0 0 12px #00ffcc;
-  display: none;
-  z-index: 999;
-}header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 1rem 2rem;
-}
-
-.wallet-btn {
-  padding: 10px 16px;
-  background-color: #9945FF;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.wallet-connected {
-  display: none;
-  margin-left: 1rem;
-  font-size: 0.9rem;
-  color: #0f0;
-  text-shadow: 0 0 6px #0f0;
 }
 
