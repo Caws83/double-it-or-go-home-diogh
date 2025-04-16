@@ -203,3 +203,48 @@ button {
   color: #ccc;
   margin-top: 4px;
 }
+@media screen and (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .site-logo {
+    height: 60px;
+  }
+
+  .wallet-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .wager-box, .result-box, .dice-game, .whitepaper, .team {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .float-coin, .corner-coin {
+    display: none; /* optional: hide floating coins on small screens */
+  }
+
+  .game-quote {
+    font-size: 1rem;
+  }
+
+  .team-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
