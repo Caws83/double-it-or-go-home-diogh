@@ -8,18 +8,25 @@ body {
   overflow-x: hidden;
 }
 
-.neon-title {
-  font-size: 3rem;
-  color: #ff69b4;
-  text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+/* 🔥 NEW: Header */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
   margin-bottom: 1rem;
 }
 
+.site-logo {
+  height: 70px;
+  width: auto;
+  filter: drop-shadow(0 0 6px #ff69b4);
+}
+
+/* 🔐 Wallet Section */
 .wallet-bar {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  padding: 1rem 2rem;
   gap: 1rem;
 }
 
@@ -42,6 +49,25 @@ body {
   color: #0f0;
 }
 
+button {
+  padding: 14px 32px;
+  font-size: 1.2rem;
+  background: linear-gradient(45deg, #ff007f, #8e2de2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 20px #8e2de2;
+  margin-top: 1rem;
+}
+
+.neon-title {
+  font-size: 3rem;
+  color: #ff69b4;
+  text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+  margin-bottom: 1rem;
+}
+
 .wager-box {
   margin: 1rem auto;
   padding: 1rem;
@@ -58,18 +84,6 @@ body {
   margin: 0.5rem;
   border-radius: 6px;
   border: none;
-}
-
-button {
-  padding: 14px 32px;
-  font-size: 1.2rem;
-  background: linear-gradient(45deg, #ff007f, #8e2de2);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 0 20px #8e2de2;
-  margin-top: 1rem;
 }
 
 .result-box {
@@ -111,16 +125,5 @@ button {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-}
 
-.site-logo {
-  height: 60px;
-  width: auto;
-  filter: drop-shadow(0 0 8px #ff69b4);
-}
 
