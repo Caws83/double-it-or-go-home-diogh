@@ -1,94 +1,87 @@
 body {
-  background: radial-gradient(circle at 30% 30%, #1f1f1f, #000);
-  color: white;
-  font-family: Orbitron, sans-serif;
   margin: 0;
-  padding: 0;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: rgba(0, 0, 0, 0.7);
-}
-
-.logo {
-  width: 60px;
-  border-radius: 5px;
-}
-
-#connectWallet {
-  padding: 10px 16px;
-  background-color: #9945FF;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.container {
-  padding: 2rem;
+  font-family: 'Orbitron', sans-serif;
+  background: radial-gradient(circle at center, #1c1c1c 0%, #000 100%);
+  color: #f0f0f0;
   text-align: center;
+  padding: 2rem;
+  overflow-x: hidden;
+}
+
+.neon-title {
+  font-size: 3rem;
+  color: #ff69b4;
+  text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+  margin-bottom: 1rem;
+}
+
+.wager-box {
+  margin: 1rem auto;
+  padding: 1rem;
+  background: #111;
+  border-radius: 10px;
+  border: 1px solid #333;
+  max-width: 600px;
+  box-shadow: 0 0 10px #8e2de2;
+}
+
+.wager-box input,
+.wager-box select {
+  padding: 8px;
+  margin: 0.5rem;
+  border-radius: 6px;
+  border: none;
 }
 
 button {
-  padding: 12px 28px;
-  font-size: 1.3rem;
-  background: linear-gradient(to right, #ff007f, #ff00ff);
+  padding: 14px 32px;
+  font-size: 1.2rem;
+  background: linear-gradient(45deg, #ff007f, #8e2de2);
   color: white;
   border: none;
-  border-radius: 30px;
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 0 10px #ff00ff;
-}
-
-#result {
-  font-size: 1.8rem;
+  box-shadow: 0 0 20px #8e2de2;
   margin-top: 1rem;
 }
 
-#balance {
-  margin-top: 1.5rem;
-  font-size: 1.1rem;
-  color: #00ffcc;
-}
-
-.wallet-info {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #aaa;
-}
-
-.leaderboard {
-  margin-top: 2rem;
-  background: rgba(255, 255, 255, 0.05);
+.result-box {
+  font-size: 1.4rem;
+  background: #111;
   padding: 1rem;
+  margin: 1rem auto;
   border-radius: 10px;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.leaderboard h3 {
-  color: #0ff;
-}
-.wager-area {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background-color: #111;
   border: 1px solid #333;
-  border-radius: 10px;
+  max-width: 600px;
 }
-.wager-area input,
-.wager-area select {
-  padding: 6px 10px;
-  margin-top: 0.5rem;
+
+.dice-game {
+  margin-top: 3rem;
+  background: #191919;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+.quote {
+  color: #ff69b4;
+  text-shadow: 0 0 8px #ff69b4;
   margin-bottom: 1rem;
-  border-radius: 6px;
-  border: none;
 }
-text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
-color: #ff69b4;
+
+.coin {
+  position: absolute;
+  width: 40px;
+  animation: spin 6s linear infinite;
+}
+
+.eth { left: 2%; bottom: 5%; }
+.btc { right: 2%; bottom: 5%; animation-duration: 8s; animation-direction: reverse; }
+.sol { left: 2%; top: 10%; animation-duration: 10s; animation-direction: reverse; }
+.diogh { right: 2%; top: 10%; animation-duration: 7s; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
