@@ -1,4 +1,3 @@
-
 let tokenBalance = 0;
 let flipCount = 0;
 
@@ -34,18 +33,3 @@ function rollDice() {
     document.getElementById("balance").textContent = `Token Balance: ${tokenBalance} $DIOGH`;
   }
 }
-
-document.getElementById("connectWallet").addEventListener("click", async () => {
-  if (window.solana && window.solana.isPhantom) {
-    try {
-      const response = await window.solana.connect();
-      const pubKey = response.publicKey.toString();
-      document.getElementById("walletAddress").textContent = `Connected Wallet: ${pubKey}`;
-    } catch (err) {
-      console.error("Wallet connection failed:", err);
-    }
-  } else {
-    alert("Phantom Wallet not found. Please install it from https://phantom.app");
-  }
-});
-
