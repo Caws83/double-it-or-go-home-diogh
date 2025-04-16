@@ -2,46 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Double It Or Go Home - $DIOGH</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <title>Double It Or Go Home</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="header">
-    <img src="logo.png" alt="Logo" class="logo">
-    <button id="connectWallet">🔐 Connect Wallet</button>
-  </header>
   <div class="container">
-    <h1>DOUBLE IT OR GO HOME</h1>
+    <h1 class="neon-title">DOUBLE IT OR GO HOME</h1>
     <p>Welcome to the ultimate futuristic coin flip experience. Will you double it or go home?</p>
-<div class="wager-area">
-  <h2>🤝 1v1 Flip Wager</h2>
-  <label>Wager Amount ($DIOGH):</label>
-  <input type="number" id="wagerAmount" placeholder="Enter amount" min="1" />
-  <label style="margin-left: 1rem;">Choose Side:</label>
-  <select id="chosenSide">
-    <option value="Heads">Heads</option>
-    <option value="Tails">Tails</option>
-  </select>
-</div>
+
+    <div class="wager-box">
+      <h2>🤝 <strong>1v1 Flip Wager</strong></h2>
+      <label>Wager Amount ($DIOGH):</label>
+      <input type="number" id="wagerAmount" placeholder="Enter amount" min="1" />
+      <label>Choose Side:</label>
+      <select id="chosenSide">
+        <option value="Heads">Heads</option>
+        <option value="Tails">Tails</option>
+      </select>
+    </div>
 
     <button onclick="flipCoin()">🎲 Flip Coin</button>
-    <div id="result"></div>
+    <div id="result" class="result-box"></div>
 
-    <div style="margin-top: 3rem;">
+    <p id="balance">Token Balance: 0 $DIOGH</p>
+
+    <section class="dice-game">
       <h2>🎲 Mini Dice Game</h2>
-      <p style="color: #ff69b4; text-shadow: 0 0 6px #ff69b4;">Go big or go home 💥</p>
+      <p class="quote">Go big or go home 💥</p>
       <button onclick="rollDice()">🎲 Roll the Dice</button>
-      <div id="diceResult" style="margin-top: 1rem;"></div>
-    </div>
+      <div id="diceResult"></div>
+    </section>
 
-    <div id="balance">Token Balance: 0 $DIOGH</div>
-    <div class="leaderboard">
-      <h3>🏆 Leaderboard</h3>
-      <ul id="leaderboard"></ul>
-    </div>
-    <div id="walletAddress" class="wallet-info"></div>
+    <h3>🏆 Leaderboard</h3>
+    <ul id="leaderboard"></ul>
+
+    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" class="coin eth" />
+    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" class="coin btc" />
+    <img src="https://cryptologos.cc/logos/solana-sol-logo.png" class="coin sol" />
+    <img src="https://cdn-icons-png.flaticon.com/512/11561/11561818.png" class="coin diogh" />
   </div>
   <script src="script.js"></script>
 </body>
 </html>
+
