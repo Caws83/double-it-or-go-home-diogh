@@ -10,7 +10,7 @@ function flipCoin() {
   }
 
   const result = Math.random() < 0.5 ? "Heads" : "Tails";
-  document.getElementById("result").textContent = `Coin landed on: ${result}`;
+  document.getElementById("result").textContent = "Coin landed on: " + result;
 
   if (result === chosen) {
     tokenBalance += wager;
@@ -21,15 +21,15 @@ function flipCoin() {
   }
 
   flipCount++;
-  document.getElementById("balance").textContent = `Token Balance: ${tokenBalance} $DIOGH`;
-  document.getElementById("leaderboard").innerHTML = `<li>You: ${flipCount} flips</li>`;
+  document.getElementById("balance").textContent = "Token Balance: " + tokenBalance + " $DIOGH";
+  document.getElementById("leaderboard").innerHTML = "<li>You: " + flipCount + " flips</li>";
 }
 
 function rollDice() {
   const roll = Math.floor(Math.random() * 6) + 1;
-  document.getElementById("diceResult").textContent = `You rolled a 🎲 ${roll}`;
+  document.getElementById("diceResult").textContent = "You rolled a 🎲 " + roll;
   if (roll >= 5) {
     tokenBalance += 5;
-    document.getElementById("balance").textContent = `Token Balance: ${tokenBalance} $DIOGH`;
+    document.getElementById("balance").textContent = "Token Balance: " + tokenBalance + " $DIOGH";
   }
 }
