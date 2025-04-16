@@ -10,6 +10,9 @@
     <h1 class="neon-title">DOUBLE IT OR GO HOME</h1>
     <p>Welcome to the ultimate futuristic coin flip experience. Will you double it or go home?</p>
 
+    <button id="connectWallet">🔐 Connect Wallet</button>
+    <p id="walletStatus"></p>
+
     <div class="wager-box">
       <h2>🤝 <strong>1v1 Flip Wager</strong></h2>
       <label>Wager Amount ($DIOGH):</label>
@@ -33,15 +36,34 @@
       <div id="diceResult"></div>
     </section>
 
+    <section class="coming-soon">
+      <h2>🕹️ Mini Game Hub - Coming Soon</h2>
+      <p>Exclusive for $DIOGH holders. Unlock secret games and win big!</p>
+    </section>
+
     <h3>🏆 Leaderboard</h3>
     <ul id="leaderboard"></ul>
 
-    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" class="coin eth" />
-    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" class="coin btc" />
-    <img src="https://cryptologos.cc/logos/solana-sol-logo.png" class="coin sol" />
+    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=026" class="coin eth" />
+    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=026" class="coin btc" />
+    <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=026" class="coin sol" />
     <img src="https://cdn-icons-png.flaticon.com/512/11561/11561818.png" class="coin diogh" />
   </div>
+
   <script src="script.js"></script>
+  <script>
+    document.getElementById("connectWallet").addEventListener("click", async function () {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const response = await window.solana.connect();
+          document.getElementById("walletStatus").textContent = "Wallet connected: " + response.publicKey.toString();
+        } catch (err) {
+          console.error("Connection error:", err);
+        }
+      } else {
+        alert("Phantom Wallet not found. Please install it from https://phantom.app");
+      }
+    });
+  </script>
 </body>
 </html>
-
