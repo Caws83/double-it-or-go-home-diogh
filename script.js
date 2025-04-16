@@ -33,3 +33,27 @@ function rollDice() {
     document.getElementById("balance").textContent = "Token Balance: " + tokenBalance + " $DIOGH";
   }
 }
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const walletBtn = document.getElementById("connectWallet");
+    const walletStatus = document.getElementById("walletStatus");
+
+    walletBtn.addEventListener("click", async () => {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const res = await window.solana.connect();
+          const address = res.publicKey.toString();
+          const short = address.slice(0, 4) + "..." + address.slice(-4);
+
+          walletStatus.textContent = "✅ Wallet: " + short;
+          walletStatus.style.display = "inline-block";
+          walletBtn.style.display = "none";
+        } catch (err) {
+          console.error("Wallet connection failed:", err);
+        }
+      } else {
+        alert("Phantom Wallet not found. Please install it from https://phantom.app");
+      }
+    });
+  });
+</script>
