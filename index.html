@@ -41,7 +41,7 @@
     .wallet-button {
       position: absolute;
       top: 20px;
-      left: 130px;
+      right: 20px;
       padding: 0.8rem 1.4rem;
       border: none;
       border-radius: 8px;
@@ -111,9 +111,11 @@
   </header>
 
   <section class="game-section">
-    <h2>🎯 Meme Coin Prediction Game</h2>
+    <h2>📈 Meme Coin Prediction Game</h2>
     <div class="spinner-coin">🪙</div>
-    <p style="color:#ff69b4;">Predict whether $DIOGH will go up or down vs the market. Win or lose tokens based on your call.</p>
+    <p style="color:#ff69b4;">Predict whether $DIOGH will go up or down vs market — real-time data feed active!</p>
+
+    <div id="livePrice" style="margin: 1rem; font-size: 1.1rem;"></div>
 
     <input type="text" id="playerName" placeholder="Your Name" />
     <label>Prediction:</label>
@@ -131,8 +133,24 @@
 
   <script>
     let tokenBalance = 0;
+    let lastPrice = 0;
 
-    function predictMarket() {
+    async function fetchMarketData() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana,bonk,shiba-inu&vs_currencies=usd');
+        const data = await res.json();
+        const solPrice = data.solana.usd;
+        const bonk = data.bonk.usd;
+        const shib = data['shiba-inu'].usd;
+        document.getElementById("livePrice").innerHTML = `SOL: $${solPrice.toFixed(2)} | BONK: $${bonk.toFixed(6)} | SHIB: $${shib.toFixed(6)}`;
+        return solPrice;
+      } catch (err) {
+        document.getElementById("livePrice").textContent = "Unable to fetch live prices.";
+        return null;
+      }
+    }
+
+    async function predictMarket() {
       const player = document.getElementById("playerName").value || "You";
       const prediction = document.getElementById("marketPrediction").value;
       const wager = parseFloat(document.getElementById("wagerAmount").value);
@@ -143,7 +161,10 @@
         return;
       }
 
-      const marketDirection = Math.random() < 0.5 ? "Up" : "Down";
+      const currentPrice = await fetchMarketData();
+      const newPrice = currentPrice + (Math.random() * 2 - 1);
+
+      const marketDirection = newPrice > currentPrice ? "Up" : "Down";
 
       if (marketDirection === prediction) {
         tokenBalance += wager * 1.5;
@@ -155,6 +176,10 @@
 
       document.getElementById("balance").textContent = `Token Balance: ${tokenBalance.toFixed(2)} $DIOGH`;
     }
+
+    fetchMarketData();
+    setInterval(fetchMarketData, 15000);
   </script>
 </body>
+
 </html>
