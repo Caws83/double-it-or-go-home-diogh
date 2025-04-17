@@ -1,153 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Double It or Go Home</title>
+  <title>Double It or Go Home | $DIOGH</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(145deg, #0a0a0a, #111);
-      color: white;
-      text-align: center;
+      background: linear-gradient(to bottom, #1a001f, #000000);
+      color: #fff;
+      overflow-x: hidden;
     }
 
-    .top-bar {
+    header {
+      background: url('2a9317f6-02eb-4c63-8b74-cdb8ba0fbf41.png') no-repeat center center/cover;
+      height: 100vh;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      padding: 1rem 2rem;
-      background-color: #000;
-      box-shadow: 0 0 10px #8e2de2;
-    }
-
-    .site-logo {
-      height: 60px;
-      filter: drop-shadow(0 0 10px #ff00ff);
-    }
-
-    .wallet-bar {
-      text-align: right;
-    }
-
-    .wallet-bar button {
-      background: linear-gradient(45deg, #ff007f, #8e2de2);
+      text-align: center;
       color: white;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+    }
+
+    .wallet-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 0.8rem 1.4rem;
       border: none;
       border-radius: 8px;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 0 10px #ff007f;
-    }
-
-    .main-title {
-      font-size: 2.5rem;
-      margin-top: 2rem;
-      text-shadow: 0 0 15px #ff00ff;
-    }
-
-    .tagline {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-    }
-
-    .flip-button {
-      background: linear-gradient(45deg, #ff007f, #8e2de2);
+      background: linear-gradient(45deg, #ff00c8, #6d00ff);
       color: white;
-      font-size: 1.4rem;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 30px;
-      cursor: pointer;
-      margin-top: 1rem;
-      box-shadow: 0 0 10px #8e2de2;
-    }
-
-    .result-box, .token-balance {
-      margin-top: 1rem;
-      font-size: 1.3rem;
-    }
-
-    .dice-section {
-      margin-top: 3rem;
-      background-color: #111;
-      padding: 2rem;
-      border-radius: 10px;
-      border: 1px solid #444;
-    }
-
-    .neon-quote {
-      color: #ff69b4;
-      text-shadow: 0 0 8px #ff69b4;
-    }
-
-    .wager-box {
-      margin: 1rem auto;
-      max-width: 400px;
-    }
-
-    input, select {
-      padding: 0.5rem;
-      margin: 0.5rem;
-      border-radius: 6px;
-      border: none;
       font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px #ff00c8;
     }
 
-    @media (max-width: 600px) {
-      .top-bar {
-        flex-direction: column;
-        align-items: center;
-      }
+    h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 20px #ff00c8;
+    }
 
-      .wallet-bar {
-        margin-top: 0.5rem;
-      }
+    .subtitle {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 1rem auto 2rem;
+    }
 
-      .site-logo {
-        height: 50px;
-      }
+    .cta-button {
+      background: linear-gradient(45deg, #ff00c8, #6d00ff);
+      border: none;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #ff00c8;
+      cursor: pointer;
+    }
+
+    .coming-soon {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #333;
+      border-radius: 8px;
     }
   </style>
 </head>
+
 <body>
-  <div class="top-bar">
-    <img src="images/logo.png" alt="DIOGH Logo" class="site-logo" />
-    <div class="wallet-bar">
-      <button id="connectWallet">🔐 Connect Wallet</button>
-      <div id="walletStatus"></div>
-    </div>
-  </div>
-
-  <h1 class="main-title">DOUBLE IT OR GO HOME</h1>
-  <p class="tagline">Flip the coin, earn rewards, climb the leaderboard. Ready to risk it?</p>
-
-  <div class="wager-box">
-    <h2>🤝 1v1 Flip Wager</h2>
-    <label>Wager Amount ($DIOGH):</label>
-    <input type="number" id="wagerAmount" placeholder="Enter amount" />
-    <label>Choose Side:</label>
-    <select id="chosenSide">
-      <option value="Heads">Heads</option>
-      <option value="Tails">Tails</option>
-    </select>
-  </div>
-
-  <button class="flip-button" onclick="flipCoin()">🎲 Flip Coin</button>
-  <div id="result" class="result-box"></div>
-  <div id="balance" class="token-balance">Token Balance: 0 $DIOGH</div>
-  <ul id="leaderboard" class="leaderboard"></ul>
-
-  <section class="dice-section">
-    <h2>🎲 Mini Dice Game</h2>
-    <p class="neon-quote">Go big or go home 💥</p>
-    <button class="flip-button" onclick="rollDice()">🎲 Roll the Dice</button>
-    <div id="diceResult" class="result-box"></div>
-  </section>
-
-  <script src="script.js"></script>
+  <header>
+    <img src="logo.png" alt="DIOGH Logo" class="logo">
+    <button class="wallet-button" id="connectWallet">🔐 Connect Wallet</button>
+    <h1>Double It Or Go Home</h1>
+    <div class="subtitle">The ultimate Solana meme token where you can double your investment — or go home!</div>
+    <button class="cta-button">🚀 Play to Double It</button>
+    <div class="coming-soon">🎮 Game Coming Soon — Flip & wager $DIOGH for glory and gain. Stay tuned!</div>
+  </header>
 </body>
+
 </html>
