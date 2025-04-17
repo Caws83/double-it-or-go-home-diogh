@@ -50,6 +50,16 @@
       font-size: 1rem;
       cursor: pointer;
       box-shadow: 0 0 15px #ff00c8;
+      z-index: 1000;
+    }
+
+    @media (max-width: 600px) {
+      .wallet-button {
+        top: 10px;
+        right: 10px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
     }
 
     h1 {
@@ -141,7 +151,7 @@
 
   <section class="chart-container">
     <h2>📊 Real-Time Market Chart</h2>
-    <iframe src="https://www.tradingview.com/embed-widget/symbol-overview/?locale=en#%7B%22symbols%22%3A%5B%5B%22COINBASE%3ASOLUSD%7C1D%22%5D%5D%2C%22chartOnly%22%3Afalse%2C%22width%22%3A"100%"%2C%22height%22%3A400%2C%22colorTheme%22%3A%22dark%22%2C%22autosize%22%3Atrue%2C%22showVolume%22%3Atrue%7D" width="100%" height="400" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+    <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_5d5b4&symbol=BINANCE:SOLUSDT&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc/UTC&withdateranges=1&hideideas=1&enabled_features=[]&disabled_features=[]&locale=en" width="100%" height="400" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
   </section>
 
   <script>
