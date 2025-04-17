@@ -23,11 +23,9 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       text-align: center;
-      color: white;
-      padding-top: 3rem;
       position: relative;
     }
 
@@ -43,7 +41,7 @@
     .wallet-button {
       position: absolute;
       top: 20px;
-      right: 20px;
+      left: 130px;
       padding: 0.8rem 1.4rem;
       border: none;
       border-radius: 8px;
@@ -69,7 +67,7 @@
       padding: 2rem;
       text-align: center;
       max-width: 800px;
-      margin: 0 auto;
+      margin: -100px auto 4rem;
     }
 
     .game-section input, .game-section select, .game-section button {
@@ -113,66 +111,50 @@
   </header>
 
   <section class="game-section">
-    <h2>🎯 1v1 Coin Flip Wager</h2>
+    <h2>🎯 Meme Coin Prediction Game</h2>
     <div class="spinner-coin">🪙</div>
-    <p style="color:#ff69b4;">Challenge a friend. Winner takes all. 10% to treasury + 2 SOL fee.</p>
+    <p style="color:#ff69b4;">Predict whether $DIOGH will go up or down vs the market. Win or lose tokens based on your call.</p>
 
-    <input type="text" id="player1" placeholder="Player 1 Name" />
-    <input type="text" id="player2" placeholder="Player 2 Name" />
-    <br />
-    <label>Choose Prize:</label>
-    <select id="chosenPrize">
-      <option value="BTC">BTC</option>
-      <option value="ETH">ETH</option>
-      <option value="SOL">SOL</option>
-      <option value="BNB">BNB</option>
+    <input type="text" id="playerName" placeholder="Your Name" />
+    <label>Prediction:</label>
+    <select id="marketPrediction">
+      <option value="Up">Up 📈</option>
+      <option value="Down">Down 📉</option>
     </select>
-    <br />
     <label>Wager Amount ($DIOGH):</label>
     <input type="number" id="wagerAmount" placeholder="Enter amount" />
-    <select id="chosenSide">
-      <option value="Heads">Heads</option>
-      <option value="Tails">Tails</option>
-    </select>
-    <button onclick="flipCoin()">Flip Coin</button>
+    <button onclick="predictMarket()">Lock In Prediction</button>
 
-    <div class="result-display" id="result"></div>
+    <div class="result-display" id="predictionResult"></div>
     <div class="result-display" id="balance">Token Balance: 0 $DIOGH</div>
-    <ul class="result-display" id="leaderboard"></ul>
   </section>
 
   <script>
     let tokenBalance = 0;
-    let flipCount = 0;
 
-    function flipCoin() {
+    function predictMarket() {
+      const player = document.getElementById("playerName").value || "You";
+      const prediction = document.getElementById("marketPrediction").value;
       const wager = parseFloat(document.getElementById("wagerAmount").value);
-      const chosen = document.getElementById("chosenSide").value;
-      const prize = document.getElementById("chosenPrize").value;
-      const player1 = document.getElementById("player1").value || "Player 1";
-      const player2 = document.getElementById("player2").value || "Player 2";
+      const resultEl = document.getElementById("predictionResult");
 
       if (!wager || wager <= 0) {
         alert("Enter a valid wager amount.");
         return;
       }
 
-      const result = Math.random() < 0.5 ? "Heads" : "Tails";
-      document.getElementById("result").textContent = `Coin landed on: ${result}`;
+      const marketDirection = Math.random() < 0.5 ? "Up" : "Down";
 
-      if (result === chosen) {
-        tokenBalance += wager * 0.9;
-        document.getElementById("result").textContent += ` — ${player1} wins ${prize}! 🎉`;
+      if (marketDirection === prediction) {
+        tokenBalance += wager * 1.5;
+        resultEl.textContent = `${player} predicted ${prediction} — Market went ${marketDirection}. You WIN! 🚀`;
       } else {
         tokenBalance -= wager;
-        document.getElementById("result").textContent += ` — ${player2} wins ${prize}! 💀`;
+        resultEl.textContent = `${player} predicted ${prediction} — Market went ${marketDirection}. You LOSE. 💀`;
       }
 
-      flipCount++;
       document.getElementById("balance").textContent = `Token Balance: ${tokenBalance.toFixed(2)} $DIOGH`;
-      document.getElementById("leaderboard").innerHTML = `<li>${player1}: ${flipCount} flips</li>`;
     }
   </script>
 </body>
-
 </html>
