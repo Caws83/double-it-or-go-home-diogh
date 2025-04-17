@@ -35,8 +35,9 @@
       position: absolute;
       top: 20px;
       left: 20px;
-      width: 60px;
-      height: 60px;
+      width: 80px;
+      height: 80px;
+      filter: drop-shadow(0 0 8px #ff00c8);
     }
 
     .wallet-button {
@@ -54,7 +55,7 @@
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 3.2rem;
       text-shadow: 0 0 20px #ff00c8;
     }
 
@@ -75,12 +76,28 @@
       cursor: pointer;
     }
 
-    .coming-soon {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #333;
-      border-radius: 8px;
+    .game-section {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .game-section input, .game-section select, .game-section button {
+      padding: 0.6rem 1rem;
+      margin: 0.5rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .game-section button {
+      background: linear-gradient(45deg, #ff00c8, #6d00ff);
+      color: white;
+      cursor: pointer;
+    }
+
+    .result-display {
+      margin-top: 1rem;
+      font-size: 1.2rem;
     }
   </style>
 </head>
@@ -92,8 +109,52 @@
     <h1>Double It Or Go Home</h1>
     <div class="subtitle">The ultimate Solana meme token where you can double your investment — or go home!</div>
     <button class="cta-button">🚀 Play to Double It</button>
-    <div class="coming-soon">🎮 Game Coming Soon — Flip & wager $DIOGH for glory and gain. Stay tuned!</div>
   </header>
+
+  <section class="game-section">
+    <h2>🎲 1v1 Coin Flip Wager</h2>
+    <div>
+      <label>Wager Amount ($DIOGH):</label>
+      <input type="number" id="wagerAmount" placeholder="Enter amount" />
+      <select id="chosenSide">
+        <option value="Heads">Heads</option>
+        <option value="Tails">Tails</option>
+      </select>
+      <button onclick="flipCoin()">Flip Coin</button>
+    </div>
+    <div class="result-display" id="result"></div>
+    <div class="result-display" id="balance">Token Balance: 0 $DIOGH</div>
+    <ul class="result-display" id="leaderboard"></ul>
+  </section>
+
+  <script>
+    let tokenBalance = 0;
+    let flipCount = 0;
+
+    function flipCoin() {
+      const wager = parseFloat(document.getElementById("wagerAmount").value);
+      const chosen = document.getElementById("chosenSide").value;
+      if (!wager || wager <= 0) {
+        alert("Enter a valid wager amount.");
+        return;
+      }
+
+      const result = Math.random() < 0.5 ? "Heads" : "Tails";
+      document.getElementById("result").textContent = `Coin landed on: ${result}`;
+
+      if (result === chosen) {
+        tokenBalance += wager;
+        document.getElementById("result").textContent += " — You Win! 🎉";
+      } else {
+        tokenBalance -= wager;
+        document.getElementById("result").textContent += " — You Lose 💀";
+      }
+
+      flipCount++;
+      document.getElementById("balance").textContent = `Token Balance: ${tokenBalance} $DIOGH`;
+      document.getElementById("leaderboard").innerHTML = `<li>You: ${flipCount} flips</li>`;
+    }
+  </script>
 </body>
 
 </html>
