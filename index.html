@@ -99,6 +99,14 @@
       0% { transform: rotateY(0); }
       100% { transform: rotateY(360deg); }
     }
+
+    .chart-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      padding: 1rem;
+    }
   </style>
 </head>
 
@@ -129,6 +137,11 @@
 
     <div class="result-display" id="predictionResult"></div>
     <div class="result-display" id="balance">Token Balance: 0 $DIOGH</div>
+  </section>
+
+  <section class="chart-container">
+    <h2>📊 Real-Time Market Chart</h2>
+    <iframe src="https://www.tradingview.com/embed-widget/symbol-overview/?locale=en#%7B%22symbols%22%3A%5B%5B%22COINBASE%3ASOLUSD%7C1D%22%5D%5D%2C%22chartOnly%22%3Afalse%2C%22width%22%3A"100%"%2C%22height%22%3A400%2C%22colorTheme%22%3A%22dark%22%2C%22autosize%22%3Atrue%2C%22showVolume%22%3Atrue%7D" width="100%" height="400" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
   </section>
 
   <script>
