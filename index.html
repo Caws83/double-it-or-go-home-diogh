@@ -3,106 +3,60 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Double It or Go Home | $DIOGH</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solana Meme Predictions Arcade</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.73.2/lib/index.iife.min.js"></script>
   <style>
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(to bottom, #1a001f, #000000);
-      color: #fff;
+      background: radial-gradient(#0a0a0a, #000000);
+      color: white;
+      text-align: center;
       overflow-x: hidden;
     }
 
     header {
-      background: url('2a9317f6-02eb-4c63-8b74-cdb8ba0fbf41.png') no-repeat center center/cover;
-      height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      text-align: center;
-      position: relative;
+      padding: 1rem;
+      background-color: #111;
+      box-shadow: 0 0 10px #000;
     }
 
     .logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 100px;
-      height: auto;
-      filter: drop-shadow(0 0 12px #ff00c8);
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 50px;
+      margin-right: 1rem;
     }
 
     .wallet-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      padding: 0.8rem 1.4rem;
-      border: none;
-      border-radius: 8px;
       background: linear-gradient(45deg, #ff00c8, #6d00ff);
+      border: none;
       color: white;
+      padding: 0.6rem 1.2rem;
       font-size: 1rem;
+      border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 0 15px #ff00c8;
-      z-index: 1000;
     }
 
-    @media (max-width: 600px) {
-      .wallet-button {
-        top: 10px;
-        right: 10px;
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    h1 {
-      font-size: 3.6rem;
-      text-shadow: 0 0 25px #ff00c8;
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 1rem auto 2rem;
-    }
-
-    .game-section {
-      padding: 2rem;
-      text-align: center;
+    main {
+      margin: 2rem auto;
       max-width: 800px;
-      margin: -100px auto 4rem;
+      text-align: center;
     }
 
-    .game-section input, .game-section select, .game-section button {
-      padding: 0.6rem 1rem;
-      margin: 0.5rem;
-      border-radius: 6px;
-      border: none;
-      font-size: 1rem;
-    }
-
-    .game-section button {
-      background: linear-gradient(45deg, #ff00c8, #6d00ff);
-      color: white;
-      cursor: pointer;
-    }
-
-    .result-display {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-    }
-
-    .spinner-coin {
+    .big-coin {
+      font-size: 4rem;
+      margin: 2rem auto;
       animation: spin 1s linear infinite;
-      display: inline-block;
-      margin: 1rem auto;
     }
 
     @keyframes spin {
@@ -110,98 +64,157 @@
       100% { transform: rotateY(360deg); }
     }
 
-    .chart-container {
-      max-width: 900px;
-      margin: 2rem auto;
-      background: rgba(0, 0, 0, 0.4);
+    .golden-pot {
+      border: 2px dashed gold;
       border-radius: 12px;
       padding: 1rem;
+      margin: 1.5rem 0;
+      background: rgba(255, 215, 0, 0.05);
+    }
+
+    .game-box {
+      margin-top: 3rem;
+      padding: 1rem;
+      background: #1a1a1a;
+      border-radius: 12px;
+    }
+
+    .chat-box {
+      background: #121212;
+      color: white;
+      padding: 1rem;
+      height: 200px;
+      overflow-y: auto;
+      margin: 2rem 0;
+      border-radius: 10px;
+    }
+
+    .voice-chat {
+      padding: 1rem;
+      margin-top: 1rem;
+      background: #222;
+      border-radius: 10px;
+      font-style: italic;
     }
   </style>
 </head>
 
 <body>
   <header>
-    <img src="logo.png" alt="DIOGH Logo" class="logo">
-    <button class="wallet-button" id="connectWallet">🔐 Connect Wallet</button>
-    <h1>Double It Or Go Home</h1>
-    <div class="subtitle">The ultimate Solana meme token where you can double your investment — or go home!</div>
+    <div class="logo">
+      <img src="logo.png" alt="DIOGH Logo">
+      <h1>Solana Meme Predictions Arcade</h1>
+    </div>
+    <button class="wallet-button" id="connectWallet">Connect Wallet</button>
   </header>
 
-  <section class="game-section">
-    <h2>📈 Meme Coin Prediction Game</h2>
-    <div class="spinner-coin">🪙</div>
-    <p style="color:#ff69b4;">Predict whether $DIOGH will go up or down vs market — real-time data feed active!</p>
+  <main>
+    <div class="game-box">
+      <h2>🪙 1v1 Coin Toss Wager</h2>
+      <input type="text" id="player1" placeholder="Player 1 Name">
+      <input type="text" id="player2" placeholder="Player 2 Name">
+      <br>
+      <label>Wager Amount:</label>
+      <input type="number" id="wager" placeholder="Enter $DIOGH amount">
+      <button onclick="deposit('player1')">Player 1 Deposit</button>
+      <button onclick="deposit('player2')">Player 2 Deposit</button>
 
-    <div id="livePrice" style="margin: 1rem; font-size: 1.1rem;"></div>
+      <div class="golden-pot">
+        <h3>🔥 Golden Pot 🔥</h3>
+        <p id="potStatus">Waiting for both players to deposit...</p>
+      </div>
 
-    <input type="text" id="playerName" placeholder="Your Name" />
-    <label>Prediction:</label>
-    <select id="marketPrediction">
-      <option value="Up">Up 📈</option>
-      <option value="Down">Down 📉</option>
-    </select>
-    <label>Wager Amount ($DIOGH):</label>
-    <input type="number" id="wagerAmount" placeholder="Enter amount" />
-    <button onclick="predictMarket()">Lock In Prediction</button>
+      <button onclick="startCoinFlip()">🎲 Flip the Coin</button>
+      <div class="big-coin" id="coin" style="display:none;">🪙</div>
+      <div id="flipResult"></div>
+    </div>
 
-    <div class="result-display" id="predictionResult"></div>
-    <div class="result-display" id="balance">Token Balance: 0 $DIOGH</div>
-  </section>
+    <div class="game-box">
+      <h2>✊ Rock Paper Scissors</h2>
+      <select id="rpsChoice">
+        <option value="rock">Rock</option>
+        <option value="paper">Paper</option>
+        <option value="scissors">Scissors</option>
+      </select>
+      <button onclick="playRPS()">Play</button>
+      <p id="rpsResult"></p>
+    </div>
 
-  <section class="chart-container">
-    <h2>📊 Real-Time Market Chart</h2>
-    <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_5d5b4&symbol=BINANCE:SOLUSDT&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc/UTC&withdateranges=1&hideideas=1&enabled_features=[]&disabled_features=[]&locale=en" width="100%" height="400" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
-  </section>
+    <div class="game-box">
+      <h2>🎲 Dice Duel</h2>
+      <button onclick="rollDice()">Roll Dice</button>
+      <p id="diceResult"></p>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+      <p><strong>🟢 Chat:</strong></p>
+      <p>User1: LET'S GO! 🔥</p>
+      <p>User2: WHO WANNA WAGER?! 💰</p>
+    </div>
+
+    <div class="voice-chat">
+      🎤 Voice chat feature coming soon (WebRTC integration)...
+    </div>
+  </main>
 
   <script>
-    let tokenBalance = 0;
-    let lastPrice = 0;
+    let pot = { player1: false, player2: false };
 
-    async function fetchMarketData() {
+    document.getElementById("connectWallet").addEventListener("click", async function () {
       try {
-        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana,bonk,shiba-inu&vs_currencies=usd');
-        const data = await res.json();
-        const solPrice = data.solana.usd;
-        const bonk = data.bonk.usd;
-        const shib = data['shiba-inu'].usd;
-        document.getElementById("livePrice").innerHTML = `SOL: $${solPrice.toFixed(2)} | BONK: $${bonk.toFixed(6)} | SHIB: $${shib.toFixed(6)}`;
-        return solPrice;
+        const resp = await window.solana.connect();
+        document.getElementById("connectWallet").textContent = "Wallet: " + resp.publicKey.toString().slice(0, 6) + "...";
       } catch (err) {
-        document.getElementById("livePrice").textContent = "Unable to fetch live prices.";
-        return null;
+        alert("Phantom wallet not found or denied access.");
+      }
+    });
+
+    function deposit(player) {
+      pot[player] = true;
+      updatePotStatus();
+    }
+
+    function updatePotStatus() {
+      const potStatus = document.getElementById("potStatus");
+      if (pot.player1 && pot.player2) {
+        potStatus.textContent = "💰 Both players have deposited! Ready to flip.";
+      } else {
+        potStatus.textContent = "Waiting for both players to deposit...";
       }
     }
 
-    async function predictMarket() {
-      const player = document.getElementById("playerName").value || "You";
-      const prediction = document.getElementById("marketPrediction").value;
-      const wager = parseFloat(document.getElementById("wagerAmount").value);
-      const resultEl = document.getElementById("predictionResult");
-
-      if (!wager || wager <= 0) {
-        alert("Enter a valid wager amount.");
+    function startCoinFlip() {
+      if (!pot.player1 || !pot.player2) {
+        alert("Both players must deposit before flipping.");
         return;
       }
-
-      const currentPrice = await fetchMarketData();
-      const newPrice = currentPrice + (Math.random() * 2 - 1);
-
-      const marketDirection = newPrice > currentPrice ? "Up" : "Down";
-
-      if (marketDirection === prediction) {
-        tokenBalance += wager * 1.5;
-        resultEl.textContent = `${player} predicted ${prediction} — Market went ${marketDirection}. You WIN! 🚀`;
-      } else {
-        tokenBalance -= wager;
-        resultEl.textContent = `${player} predicted ${prediction} — Market went ${marketDirection}. You LOSE. 💀`;
-      }
-
-      document.getElementById("balance").textContent = `Token Balance: ${tokenBalance.toFixed(2)} $DIOGH`;
+      document.getElementById("coin").style.display = "inline-block";
+      document.getElementById("flipResult").textContent = "Flipping coin...";
+      setTimeout(() => {
+        document.getElementById("coin").style.display = "none";
+        const result = Math.random() < 0.5 ? "Heads" : "Tails";
+        const winner = result === "Heads" ? document.getElementById("player1").value : document.getElementById("player2").value;
+        document.getElementById("flipResult").textContent = `${winner} wins the golden pot! (${result})`;
+        pot = { player1: false, player2: false };
+        updatePotStatus();
+      }, 10000);
     }
 
-    fetchMarketData();
-    setInterval(fetchMarketData, 15000);
+    function playRPS() {
+      const user = document.getElementById("rpsChoice").value;
+      const choices = ["rock", "paper", "scissors"];
+      const ai = choices[Math.floor(Math.random() * 3)];
+      let result;
+      if (user === ai) result = "It's a draw!";
+      else if ((user === "rock" && ai === "scissors") || (user === "scissors" && ai === "paper") || (user === "paper" && ai === "rock")) result = "You win!";
+      else result = "You lose!";
+      document.getElementById("rpsResult").textContent = `AI chose ${ai}. ${result}`;
+    }
+
+    function rollDice() {
+      const roll = Math.floor(Math.random() * 6) + 1;
+      document.getElementById("diceResult").textContent = `You rolled a ${roll}`;
+    }
   </script>
 </body>
 
